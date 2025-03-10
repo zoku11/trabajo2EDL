@@ -1,13 +1,109 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4A26F654-3352-4A3E-A57F-49AE32EDB4C8}
-	EndGlobalSection
-EndGlobal
+using System;
+using System.Collections.Generic;
+
+namespace Geometry
+{
+    class Program
+    {
+        static void Main()
+        {
+           
+            var figures = new List<GeometricFigure>
+            {
+                new Circle("Circle", 5),
+                new Square("Square", 10),
+                new Rhombus("Rhombus", 5, 7, 10),
+                new Kite("Kite", 7, 6, 5, 8),
+                new Rectangle("Rectangle", 4.568, 67.790),
+                new Parallelogram("Parallelogram", 14.65, 54.67, 23.09),
+                new Triangle("Triangle", 45.56, 12.34, 27.09, 15),
+                new Trapeze("Trapeze", 10, 20, 30, 40, 20)
+            };
+
+            
+            foreach (var figure in figures)
+            {
+                Console.WriteLine($"{figure.Name} => Area: {figure.CalculateArea():F5}  Perimeter: {figure.CalculatePerimeter():F5}");
+            }
+        }
+    }
+
+    abstract class GeometricFigure
+    {
+        public string Name { get; set; }
+        public GeometricFigure(string name) => Name = name;
+        public abstract double CalculateArea();
+        public abstract double CalculatePerimeter();
+    }
+
+    class Circle : GeometricFigure
+    {
+        private double Radius;
+        public Circle(string name, double radius) : base(name) => Radius = radius;
+        public override double CalculateArea() => Math.PI * Radius * Radius;
+        public override double CalculatePerimeter() => 2 * Math.PI * Radius;
+    }
+
+    class Square : GeometricFigure
+    {
+        private double Side;
+        public Square(string name, double side) : base(name) => Side = side;
+        public override double CalculateArea() => Side * Side;
+        public override double CalculatePerimeter() => 4 * Side;
+    }
+
+    class Rectangle : GeometricFigure
+    {
+        private double Width, Height;
+        public Rectangle(string name, double width, double height) : base(name) { Width = width; Height = height; }
+        public override double CalculateArea() => Width * Height;
+        public override double CalculatePerimeter() => 2 * (Width + Height);
+    }
+
+    class Triangle : GeometricFigure
+    {
+        private double Base, Height, Side1, Side2;
+        public Triangle(string name, double @base, double height, double side1, double side2) : base(name)
+        { Base = @base; Height = height; Side1 = side1; Side2 = side2; }
+        public override double CalculateArea() => (Base * Height) / 2;
+        public override double CalculatePerimeter() => Base + Side1 + Side2;
+    }
+
+    class Parallelogram : GeometricFigure
+    {
+        private double Base, Height, Side;
+        public Parallelogram(string name, double @base, double height, double side) : base(name)
+        { Base = @base; Height = height; Side = side; }
+        public override double CalculateArea() => Base * Height;
+        public override double CalculatePerimeter() => 2 * (Base + Side);
+    }
+
+    class Rhombus : GeometricFigure
+    {
+        private double Diagonal1, Diagonal2, Side;
+        public Rhombus(string name, double diagonal1, double diagonal2, double side) : base(name)
+        { Diagonal1 = diagonal1; Diagonal2 = diagonal2; Side = side; }
+        public override double CalculateArea() => (Diagonal1 * Diagonal2) / 2;
+        public override double CalculatePerimeter() => 4 * Side;
+    }
+
+    class Kite : GeometricFigure
+    {
+        private double Diagonal1, Diagonal2, Side1, Side2;
+        public Kite(string name, double diagonal1, double diagonal2, double side1, double side2) : base(name)
+        { Diagonal1 = diagonal1; Diagonal2 = diagonal2; Side1 = side1; Side2 = side2; }
+        public override double CalculateArea() => (Diagonal1 * Diagonal2) / 2;
+        public override double CalculatePerimeter() => 2 * (Side1 + Side2);
+    }
+
+    class Trapeze : GeometricFigure
+    {
+        private double Base1, Base2, Side1, Side2, Height;
+        public Trapeze(string name, double base1, double base2, double side1, double side2, double height) : base(name)
+        { Base1 = base1; Base2 = base2; Side1 = side1; Side2 = side2; Height = height; }
+        public override double CalculateArea() => ((Base1 + Base2) / 2) * Height;
+        public override double CalculatePerimeter() => Base1 + Base2 + Side1 + Side2;
+    }
+}
+
